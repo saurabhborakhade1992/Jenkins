@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    triggers {
+        // Trigger the build when changes are pushed to the master branch
+        branch 'dev'
+    }
     
     stages {
         stage('Build') {
