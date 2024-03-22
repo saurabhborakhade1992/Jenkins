@@ -3,7 +3,7 @@ pipeline {
 
     triggers {
         // Trigger the build when changes are pushed to the master branch
-        branch 'dev'
+        branch 'main'
     }
     
     stages {
