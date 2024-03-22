@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     triggers {
-        // Trigger the build when changes are pushed to the master branch
-        branch 'main'
+        // Trigger the build only when changes are pushed to the master branch
+        pipelineTriggers([
+            [$class: 'SCMTrigger', scmpoll_spec: 'H/1 * * * *', branches: [[name: 'main']]]
+        ])
     }
     
     stages {
