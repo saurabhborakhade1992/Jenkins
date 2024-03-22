@@ -1,30 +1,65 @@
 pipeline {
-  agent any
-  stages {
-    stage('Checkout') {
-      steps {
-        git(url: 'https://github.com/saurabhborakhade1992/Jenkins.git', branch: 'main')
-        echo 'Repo pulled to local'
-      }
-    }
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                // Add build commands here
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Add test commands here
+            }
+        }
+        stage('Deploy Staging') {
+            when {
+                branch 'dev' // Only deploy to staging if changes are pushed to the 'develop' branch
+            }
+            steps {
+                echo 'Deploying to dev environment...'
+                // Add deployment commands for staging environment here
+            }
+        }
 
-    stage('Build') {
-      steps {
-        echo 'Build success'
-      }
-    }
+        stage('Deploy Test') {
+            when {
+                branch 'test' // Only deploy to staging if changes are pushed to the 'develop' branch
+            }
+            steps {
+                echo 'Deploying to test environment...'
+                // Add deployment commands for staging environment here
+            }
+        }
 
-    stage('Test') {
-      steps {
-        bat(script: 'bat script: \'HelloWorld.bat\', returnStatus: true', returnStatus: true)
-      }
-    }
 
-    stage('Deploy') {
-      steps {
-        echo 'Deployment Sucessful'
-      }
+        stage('Deploy Pre-prod') {
+            when {
+                branch 'pre-prod' // Only deploy to staging if changes are pushed to the 'develop' branch
+            }
+            steps {
+                echo 'Deploying to pre-prod environment...'
+                // Add deployment commands for staging environment here
+            }
+        }
+      
+        stage('Deploy Production') {
+            when {
+                branch 'main' // Only deploy to production if changes are pushed to the 'master' branch
+            }
+            steps {
+                echo 'Deploying to production environment...'
+                // Add deployment commands for production environment here
+            }
+        }
     }
-
-  }
+    
+    post {
+        always {
+            echo 'Cleaning up...'
+            // Add cleanup commands here
+        }
+    }
 }
